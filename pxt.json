@@ -4,8 +4,7 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "microphone": "*",
-        "pxt-28byj-48-stepper": "github:tinkertanker/pxt-stepper-motor#v0.0.5"
+        "microphone": "*"
     },
     "files": [
         "main.blocks",
