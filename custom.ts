@@ -39,7 +39,7 @@ namespace custom {
      * describe your function here
      */
     //% block
-    function goHome() {
+    export function goHome() {
         pins.digitalWritePin(DigitalPin.P2, 1)  // set direction
     }
 }
