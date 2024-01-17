@@ -36,7 +36,7 @@ namespace stepperHome {
        * @param Steps number of steps to move forward
        */
     //% block
-    function goForward(Steps: number) {
+    export function goForward(Steps: number) {
         pins.digitalWritePin(DigitalPin.P2, 0)
         for (let index = 0; index < Steps; index++) {
             location += 1
@@ -51,7 +51,12 @@ namespace stepperHome {
         }
     }
 
-    function goBackwards(steps: number) {
+    /**
+          * TODO: describe your function here
+          * @param Steps number of steps to move backwards
+          */
+    //% block
+    export function goBackwards(steps: number) {
         pins.digitalWritePin(DigitalPin.P2, 1)
         location = location - steps
         for (let index = 0; index < steps; index++) {
