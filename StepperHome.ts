@@ -14,7 +14,7 @@ enum MyEnum {
  * Custom blocks
  */
 //% weight=100 color=#0fbc11 icon=""
-namespace custom {
+namespace StepperHome {
     /**
      * TODO: describe your function here
      * @param n describe parameter here, eg: 5
@@ -22,24 +22,8 @@ namespace custom {
      * @param e describe parameter here
      */
     //% block
-    export function foo(n: number, s: string, e: MyEnum): void {
-        // Add code here
-    }
-
-    /**
-     * TODO: describe your function here
-     * @param value describe value here, eg: 5
-     */
-    //% block
-    export function fib(value: number): number {
-        return value <= 1 ? value : fib(value - 1) + fib(value - 2);
-    }
-}
-
-
-// Add your code here
-function goHome() {
-    pins.digitalWritePin(DigitalPin.P2, 1)
+   function goHome() {
+    pins.digitalWritePin(DigitalPin.P2, 1)  // set direction
     while (home == 0) {
         if (pins.digitalReadPin(DigitalPin.P0) == 0) {
             home = 1
@@ -55,29 +39,26 @@ function goHome() {
     }
     location = 0
 }
-function goForward(Steps: number) {
-    pins.digitalWritePin(DigitalPin.P2, 0)
-    for (let index = 0; index < Steps; index++) {
-        location += 1
-        if (maxLocation >= location) {
-            for (let index = 0; index < 100; index++) {
-                pins.digitalWritePin(DigitalPin.P1, 0)
-                control.waitMicros(200)
-                pins.digitalWritePin(DigitalPin.P1, 1)
-                control.waitMicros(200)
+    /**
+       * TODO: describe your function here
+       * @param Steps number of steps to move forward
+       */
+    //% block
+    function goForward(Steps: number) {
+        pins.digitalWritePin(DigitalPin.P2, 0)
+        for (let index = 0; index < Steps; index++) {
+            location += 1
+            if (maxLocation >= location) {
+                for (let index = 0; index < 100; index++) {
+                    pins.digitalWritePin(DigitalPin.P1, 0)
+                    control.waitMicros(200)
+                    pins.digitalWritePin(DigitalPin.P1, 1)
+                    control.waitMicros(200)
+                }
             }
         }
     }
-}
-input.onButtonPressed(Button.A, function () {
-    goForward(20)
-})
-input.onButtonPressed(Button.AB, function () {
-    goHome()
-})
-input.onButtonPressed(Button.B, function () {
-    goBackwards(20)
-})
+
 function goBackwards(steps: number) {
     pins.digitalWritePin(DigitalPin.P2, 1)
     location = location - steps
@@ -114,3 +95,4 @@ basic.forever(function () {
     basic.showNumber(home)
     basic.pause(10)
 })
+}
