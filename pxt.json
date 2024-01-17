@@ -11,7 +11,8 @@
         "main.blocks",
         "main.ts",
         "README.md",
-        "StepperHome.ts"
+        "StepperHome.ts",
+        "custom.ts"
     ],
     "testFiles": [
         "test.ts"
