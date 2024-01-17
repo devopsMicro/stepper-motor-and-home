@@ -6,12 +6,12 @@
 
 
 /**
- * Custom blocks
+ * Stepper blocks
  */
 //% weight=100 color=#0fbc11 icon=""
-namespace StepperHome {
+namespace stepperHome {
     /**
-     * TODO: describe your function here
+     * describe your function here
      */
     //% block
    function goHome() {
