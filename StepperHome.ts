@@ -76,15 +76,5 @@ pins.setPull(DigitalPin.P0, PinPullMode.PullUp)
 pins.digitalWritePin(DigitalPin.P9, 0)
 home = 0
 maxLocation = 800
-basic.showIcon(IconNames.Yes)
-basic.pause(200)
-basic.forever(function () {
-    if (pins.digitalReadPin(DigitalPin.P0) == 0) {
-        home = 1
-    } else {
-        home = 0
-    }
-    basic.showNumber(home)
-    basic.pause(10)
-})
+
 }
