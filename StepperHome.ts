@@ -15,8 +15,10 @@ namespace stepperHome {
     
     
     /**
-             * describe your function here
-             */
+     * describe your function here
+     * @param Pin for Direction
+     * 
+    */
         //% block="Set Pins For Stepper"
     export function initParams(pin: DigitalPin): void {
         let stepperDirectionPin= pin;
