@@ -10,20 +10,15 @@
  */
 //% weight=100 color=#0fbc11 icon=""
 namespace stepperHome {
-
-       
     
+// varibles    
     let stepperDirectionPin = 0
     let stepperHomePin = 0
     let stepperPulsePin = 0
     let location = 0
-    let maxLocation = 0
+    let maxLocation = 800
     let home = 0
     
-    home = 0
-    maxLocation = 800
-
-
     /**
      * describe your function here
      * @param Pin for Direction
