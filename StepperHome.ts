@@ -68,6 +68,7 @@ namespace stepperHome {
      */
     //% block="Move to Home position"
     export function goHome() {
+        let index = 0
         pins.digitalWritePin(stepperDirectionPin, 1)  // set direction
         while (stepperHome == 0) {
             if (pins.digitalReadPin(stepperHomePin) == 0) {
@@ -75,7 +76,7 @@ namespace stepperHome {
             } else {
                 stepperHome = 0
             }
-            for (let index = 0; index < 100; index++) {
+            for (index = 0; index < 100; index++) {
                 pins.digitalWritePin(stepperPulsePin, 0)
                 control.waitMicros(500)
                 pins.digitalWritePin(stepperPulsePin, 1)
