@@ -3,29 +3,36 @@
 * Read more at https://makecode.microbit.org/blocks/custom
 */
 
-
-
 /**
  * Stepper blocks
+ *  control NEMA 17 stepper conected to Miccro Stepper
+ *  https://www.amazon.com/gp/product/B07PNZRPQH/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&th=1
+ *  12V power, 
+ *  3 pins are needed
+ *      Home dections switch
+ *      driver direction
+ *      driver pulse
+ *      Driver always enabled
+ * 
  */
 //% weight=100 color=#0fbc11 icon=""
 namespace stepperHome {
-    
-// varibles    
+
+    // varibles    
     let stepperDirectionPin = 0
     let stepperHomePin = 0
     let stepperPulsePin = 0
-    let location = 0
-    let maxLocation = 800
-    let home = 0
-    
+    let stepperLocation = 0
+    let stepperMaxLocation = 800
+    let stepperHome = 0
+
     /**
      * describe your function here
      * @param Pin for Direction
     */
-        //% block="Set Pins For Stepper with Home %homePin Dir %directioPin Puls %pulsePin"
+    //% block="Set Pins For Stepper with Home %homePin Dir %directioPin Puls %pulsePin"
     export function initParams(homePin: DigitalPin, directionPin: DigitalPin, pulsePin: DigitalPin): void {
-        stepperDirectionPin= directionPin
+        stepperDirectionPin = directionPin
         stepperHomePin = homePin
         stepperPulsePin = pulsePin
         pins.setPull(stepperHomePin, PinPullMode.PullUp)
@@ -33,70 +40,71 @@ namespace stepperHome {
     }
 
 
-        /**
-         * describe your function here
-         */
-        //% block="Move to Home position"
-        export function goHome() {
-            pins.digitalWritePin(stepperDirectionPin, 1)  // set direction
-            
+    /**
+     * describe your function here
+     */
+    //% block="Move to Home position"
+    export function goHome() {
+        pins.digitalWritePin(stepperDirectionPin, 1)  // set direction
 
-            while (home == 0) {
-                if (pins.digitalReadPin(stepperHomePin) == 0) {
-                    home = 1
-                } else {
-                    home = 0
+
+        while (stepperHome == 0) {
+            if (pins.digitalReadPin(stepperHomePin) == 0) {
+                stepperHome = 1
+            } else {
+                stepperHome = 0
+            }
+            for (let index = 0; index < 100; index++) {
+                pins.digitalWritePin(stepperPulsePin, 0)
+                control.waitMicros(500)
+                pins.digitalWritePin(stepperPulsePin, 1)
+                control.waitMicros(500)
+            }
+        }
+        stepperLocation = 0
+    }
+    /**
+     * TODO: describe your function here
+     * @param Steps number of steps to move forward
+     */
+    //% block
+    export function goForward(Steps: number) {
+        pins.digitalWritePin(stepperDirectionPin, 0)        // set direction
+        for (let index = 0; index < Steps; index++) {       // loop for number of steps
+            if (stepperMaxLocation >= stepperLocation) {    // do not go past max location
+                stepperLocation += 1                        // inc location if not past max                   
+                for (let index = 0; index < 100; index++) { // 100 actual steps make 1 big step
+                    pins.digitalWritePin(stepperPulsePin, 0)
+                    control.waitMicros(200)
+                    pins.digitalWritePin(stepperPulsePin, 1)
+                    control.waitMicros(200)
                 }
+
+            }
+        }
+    }
+
+    /**
+         * TODO: describe your function here
+        * @param Steps number of steps to move backwards
+        */
+    //% block
+    export function goBackwards(steps: number) {
+        pins.digitalWritePin(DigitalPin.P2, 1)
+        stepperLocation = stepperLocation - steps           // location when done
+        for (let index = 0; index < steps; index++) {       // loop for steps
+            if (pins.digitalReadPin(stepperHomePin) == 0) { // check if home
+                stepperHome = 1
+                stepperLocation = 0
+            } else {
+                stepperHome = 0                             // no at home
                 for (let index = 0; index < 100; index++) {
                     pins.digitalWritePin(stepperPulsePin, 0)
-                    control.waitMicros(500)
+                    control.waitMicros(200)
                     pins.digitalWritePin(stepperPulsePin, 1)
-                    control.waitMicros(500)
-                }
-            }
-            location = 0
-        }
-        /**
-         * TODO: describe your function here
-         * @param Steps number of steps to move forward
-         */
-        //% block
-        export function goForward(Steps: number) {
-            pins.digitalWritePin(stepperDirectionPin, 0)  // set direction
-            for (let index = 0; index < Steps; index++) {
-                location += 1
-                if (maxLocation >= location) {
-                    for (let index = 0; index < 100; index++) {
-                        pins.digitalWritePin(stepperPulsePin, 0)
-                        control.waitMicros(200)
-                        pins.digitalWritePin(stepperPulsePin, 1)
-                        control.waitMicros(200)
-                    }
+                    control.waitMicros(200)
                 }
             }
         }
-
-        /**
-             * TODO: describe your function here
-            * @param Steps number of steps to move backwards
-            */
-        //% block
-        export function goBackwards(steps: number) {
-            pins.digitalWritePin(DigitalPin.P2, 1)
-            location = location - steps
-            for (let index = 0; index < steps; index++) {
-                if (pins.digitalReadPin(stepperHomePin) == 0) {
-                    home = 1
-                    location = 0
-                } else {
-                    home = 0
-                    for (let index = 0; index < 100; index++) {
-                        pins.digitalWritePin(stepperPulsePin, 0)
-                        control.waitMicros(200)
-                        pins.digitalWritePin(stepperPulsePin, 1)
-                        control.waitMicros(200)
-                    }
-                }
-            }
-        }
+    }
 }
