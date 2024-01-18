@@ -15,7 +15,7 @@
  *      Driver always enabled
  * 
  */
-//% weight=100 color=#0fbc11 icon=""
+//% weight=100 color=#0fbc00 icon=""
 namespace stepperHome {
 
     // varibles    
