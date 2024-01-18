@@ -19,12 +19,12 @@
 namespace stepperHome {
 
     // varibles    
-    let stepperDirectionPin = 0
-    let stepperHomePin = 0
-    let stepperPulsePin = 0
-    let stepperLocation = 0
-    let stepperMaxLocation = 800
-    let stepperHome = 0
+    let stepperDirectionPin: DigitalPin = 0
+    let stepperHomePin: DigitalPin = 0
+    let stepperPulsePin: DigitalPin = 0
+    let stepperLocation: number = 0
+    let stepperMaxLocation: number = 800
+    let stepperHome: number = 0
 
     /**
      * describe your function here
@@ -38,6 +38,15 @@ namespace stepperHome {
         pins.setPull(stepperHomePin, PinPullMode.PullUp)
         pins.digitalWritePin(stepperDirectionPin, 0)
     }
+
+    /**
+     * describe your function here
+     */
+    //% block="Stepper is at Home"
+    export function getHome(): number {
+        return pins.digitalReadPin(stepperHomePin)
+    }
+
 
 
     /**
