@@ -44,7 +44,14 @@ namespace stepperHome {
      */
     //% block="Stepper is at Home"
     export function getHome(): number {
-        return pins.digitalReadPin(stepperHomePin)
+        if (pins.digitalReadPin(stepperHomePin) ==0) {
+            stepperHome = 1
+        }
+        else {
+            stepperHome = 0
+        }
+        return stepperHome
+       
     }
 
 
@@ -55,8 +62,6 @@ namespace stepperHome {
     //% block="Move to Home position"
     export function goHome() {
         pins.digitalWritePin(stepperDirectionPin, 1)  // set direction
-
-
         while (stepperHome == 0) {
             if (pins.digitalReadPin(stepperHomePin) == 0) {
                 stepperHome = 1
