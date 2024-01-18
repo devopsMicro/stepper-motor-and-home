@@ -13,36 +13,49 @@ namespace stepperHome {
 
        
     
+    let stepperDirectionPin = 0
+    let stepperHomePin = 0
+    let stepperPulsePin = 0
+    let location = 0
+    let maxLocation = 0
+    let home = 0
     
+    home = 0
+    maxLocation = 800
+
+
     /**
      * describe your function here
      * @param Pin for Direction
     */
         //% block="Set Pins For Stepper with Home %homePin Dir %directioPin Puls %pulsePin"
     export function initParams(homePin: DigitalPin, directionPin: DigitalPin, pulsePin: DigitalPin): void {
-        let stepperDirectionPin= directionPin;
-        let stepperHomePin = homePin;
-        let stepperPulsePin = pulsePin
-        pins.digitalWritePin(stepperDirectionPin, 0);
-        // don't yield to avoid races on initialization
+        stepperDirectionPin= directionPin
+        stepperHomePin = homePin
+        stepperPulsePin = pulsePin
+        pins.setPull(stepperHomePin, PinPullMode.PullUp)
+        pins.digitalWritePin(stepperDirectionPin, 0)
     }
+
 
         /**
          * describe your function here
          */
         //% block="Move to Home position"
         export function goHome() {
-            pins.digitalWritePin(DigitalPin.P2, 1)  // set direction
+            pins.digitalWritePin(stepperDirectionPin, 1)  // set direction
+            
+
             while (home == 0) {
-                if (pins.digitalReadPin(DigitalPin.P0) == 0) {
+                if (pins.digitalReadPin(stepperHomePin) == 0) {
                     home = 1
                 } else {
                     home = 0
                 }
                 for (let index = 0; index < 100; index++) {
-                    pins.digitalWritePin(DigitalPin.P1, 0)
+                    pins.digitalWritePin(stepperPulsePin, 0)
                     control.waitMicros(500)
-                    pins.digitalWritePin(DigitalPin.P1, 1)
+                    pins.digitalWritePin(stepperPulsePin, 1)
                     control.waitMicros(500)
                 }
             }
@@ -54,14 +67,14 @@ namespace stepperHome {
          */
         //% block
         export function goForward(Steps: number) {
-            pins.digitalWritePin(DigitalPin.P2, 0)
+            pins.digitalWritePin(stepperDirectionPin, 0)  // set direction
             for (let index = 0; index < Steps; index++) {
                 location += 1
                 if (maxLocation >= location) {
                     for (let index = 0; index < 100; index++) {
-                        pins.digitalWritePin(DigitalPin.P1, 0)
+                        pins.digitalWritePin(stepperPulsePin, 0)
                         control.waitMicros(200)
-                        pins.digitalWritePin(DigitalPin.P1, 1)
+                        pins.digitalWritePin(stepperPulsePin, 1)
                         control.waitMicros(200)
                     }
                 }
@@ -77,25 +90,18 @@ namespace stepperHome {
             pins.digitalWritePin(DigitalPin.P2, 1)
             location = location - steps
             for (let index = 0; index < steps; index++) {
-                if (pins.digitalReadPin(DigitalPin.P0) == 0) {
+                if (pins.digitalReadPin(stepperHomePin) == 0) {
                     home = 1
                     location = 0
                 } else {
                     home = 0
                     for (let index = 0; index < 100; index++) {
-                        pins.digitalWritePin(DigitalPin.P1, 0)
+                        pins.digitalWritePin(stepperPulsePin, 0)
                         control.waitMicros(200)
-                        pins.digitalWritePin(DigitalPin.P1, 1)
+                        pins.digitalWritePin(stepperPulsePin, 1)
                         control.waitMicros(200)
                     }
                 }
             }
         }
-        let location = 0
-        let maxLocation = 0
-        let home = 0
-        pins.setPull(DigitalPin.P0, PinPullMode.PullUp)
-        pins.digitalWritePin(DigitalPin.P9, 0)
-        home = 0
-        maxLocation = 800
-    }
+}
