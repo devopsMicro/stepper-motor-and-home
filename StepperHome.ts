@@ -13,7 +13,7 @@ namespace stepperHome {
     /**
      * describe your function here
      */
-    //% block=Move to Home position
+    //% block="Move to Home position"
     export function goHome() {
         pins.digitalWritePin(DigitalPin.P2, 1)  // set direction
         while (home == 0) {
