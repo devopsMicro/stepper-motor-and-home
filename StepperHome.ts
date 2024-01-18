@@ -104,7 +104,7 @@ namespace stepperHome {
         */
     //% block
     export function goBackwards(steps: number) {
-        pins.digitalWritePin(DigitalPin.P2, 1)
+        pins.digitalWritePin(stepperDirectionPin, 1)
         stepperLocation = stepperLocation - steps           // location when done
         for (let index = 0; index < steps; index++) {       // loop for steps
             if (pins.digitalReadPin(stepperHomePin) == 0) { // check if home
