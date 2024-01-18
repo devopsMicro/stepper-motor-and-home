@@ -18,9 +18,11 @@ namespace stepperHome {
      * describe your function here
      * @param Pin for Direction
     */
-        //% block="Set Pins For Stepper with pin %pin"
-    export function initParams(pin: DigitalPin): void {
-        let stepperDirectionPin= pin;
+        //% block="Set Pins For Stepper with Home %pin"
+    export function initParams(homePin: DigitalPin, directionPin: DigitalPin, pulsePin: DigitalPin): void {
+        let stepperDirectionPin= directionPin;
+        let stepperHomePin = homePin;
+        let stepperPulsePin = pulsePin
         pins.digitalWritePin(stepperDirectionPin, 0);
         // don't yield to avoid races on initialization
     }
