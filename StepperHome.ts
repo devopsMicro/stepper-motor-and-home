@@ -57,7 +57,7 @@ namespace stepperHome {
     /**
      * get current location
      */
-    //% block= "Get Current Location"
+    //% block="Get Current Location"
     export function geLocation(): number {
         return stepperLocation
     }
