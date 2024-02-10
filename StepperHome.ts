@@ -13,7 +13,7 @@
  *      driver direction
  *      driver pulse
  *      Driver always enabled
- * 
+ * need to add max steps
  */
 //% weight=100 color=#0fbc11 icon=""
 namespace stepperHome {
@@ -44,14 +44,14 @@ namespace stepperHome {
      */
     //% block="Stepper is at Home"
     export function getHome(): number {
-        if (pins.digitalReadPin(stepperHomePin) ==0) {
+        if (pins.digitalReadPin(stepperHomePin) == 0) {
             stepperHome = 1
         }
         else {
             stepperHome = 0
         }
         return stepperHome
-       
+
     }
 
     /**
