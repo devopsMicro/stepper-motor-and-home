@@ -37,6 +37,7 @@ namespace stepperHome {
         stepperPulsePin = pulsePin
         pins.setPull(stepperHomePin, PinPullMode.PullUp)
         pins.digitalWritePin(stepperDirectionPin, 0)
+        stepperMaxLocation = maxSteps
     }
 
     /**
