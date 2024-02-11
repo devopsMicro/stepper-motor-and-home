@@ -17,7 +17,11 @@
  */
 //% weight=100 color=#0fbc11 icon=""
 namespace stepperHome {
-
+    export enum stepperSpeeds  {
+        Slow,
+        Mid,
+        Fast
+    }
     // varibles    
     let stepperDirectionPin: DigitalPin = 0
     let stepperHomePin: DigitalPin = 0
@@ -25,12 +29,35 @@ namespace stepperHome {
     let stepperLocation: number = 0
     let stepperMaxLocation: number = 800
     let stepperHome: number = 0
+    let stepperSpeed: number = 100
+  
+
+
+    /**
+     * Speed control
+     * @param speed 
+    */
+    //% block="Set Stepper Speed:  Speed %stepSpeed"
+    export function setSpeed(stepSpeed:  stepperSpeeds ): 
+    void {
+        if (stepSpeed = stepperSpeeds.Slow) {
+            stepperSpeed = 500
+        }
+        if (stepSpeed = stepperSpeeds.Mid) {
+            stepperSpeed = 200
+        }
+        if (stepSpeed = stepperSpeeds.Fast) {
+            stepperSpeed = 100
+        }
+    }
+
+
 
     /**
      * describe your function here
      * @param Pin for Direction
     */
-    //% block="Set Pins For Stepper:  Home %homePin Dir+ %directioPin Pul+ %pulsePin Steps %maxSteps"
+    //% block="Initialize Stepper:  Home %homePin Dir+ %directioPin Pul+ %pulsePin Steps %maxSteps"
     export function initParams(homePin: DigitalPin, directionPin: DigitalPin, pulsePin: DigitalPin, maxSteps: number=800 ): void {
         stepperDirectionPin = directionPin
         stepperHomePin = homePin
@@ -79,9 +106,9 @@ namespace stepperHome {
             }
             for (index = 0; index < 100; index++) {
                 pins.digitalWritePin(stepperPulsePin, 0)
-                control.waitMicros(500)
+                control.waitMicros(stepperSpeed*2)
                 pins.digitalWritePin(stepperPulsePin, 1)
-                control.waitMicros(500)
+                control.waitMicros(stepperSpeed*2)
             }
         }
         stepperLocation = 0
@@ -98,9 +125,9 @@ namespace stepperHome {
                 stepperLocation += 1                        // inc location if not past max                   
                 for (let index = 0; index < 100; index++) { // 100 actual steps make 1 big step
                     pins.digitalWritePin(stepperPulsePin, 0)
-                    control.waitMicros(200)
+                    control.waitMicros(stepperSpeed)
                     pins.digitalWritePin(stepperPulsePin, 1)
-                    control.waitMicros(200)
+                    control.waitMicros(stepperSpeed)
                 }
 
             }
@@ -123,9 +150,9 @@ namespace stepperHome {
                 stepperHome = 0                             // no at home
                 for (let index = 0; index < 100; index++) {
                     pins.digitalWritePin(stepperPulsePin, 0)
-                    control.waitMicros(200)
+                    control.waitMicros(stepperSpeed)
                     pins.digitalWritePin(stepperPulsePin, 1)
-                    control.waitMicros(200)
+                    control.waitMicros(stepperSpeed)
                 }
             }
         }
